@@ -1004,16 +1004,13 @@
 			// Data should be the remote jobsInfo if this script is locatated on any of the Mortensen Companies web properties.
 			// If it is being worked on locally, then it is OK to use the local version, which isn't as frequently or automatically updated'
 			const data = domains.some( location => location === window.location.host.split('.')[1] ) ? remoteData : localData;
-			// fancyLog( domains.some( location => location === window.location.host.split('.')[1] ) )
-			const selectedCities = new Set();
 
-			// all top level divs
-			const sections = document.querySelectorAll( '.mega-wrapper > div.section' )
+			const selectedCities = new Set(); // Establish in the upper scope -- we'll be adding to this and subtracting from it periodically'
 
 			/* CREATE THE HTML ELEMENTS FOR the JOB REQUISISONS MODULE */
 
 			// Add in the checkboxes for each city
-			const module          = document.getElementById( 'job-requisitions-module' )
+			const module          = document.getElementById( 'job-requisitions-module' ) // Where to insert the new content
 			const selectContainer = module.children[0]
 			selectContainer.insertAdjacentHTML( 'beforeend', getBetterSelect( data, window.innerWidth ) );
 
@@ -1066,7 +1063,7 @@ let cb = {
 	lastChecked: '' // need this for the handleCheck -- will be given a value in the function
 }
 
-function cbs( event ) {
+function checkboxShiftHandler( event ) {
 	let inBetween = false;
 	// We'd be in a forEach loop of all input[type="checkboxes"] that we added the event listener to
 	if ( event.shiftKey && event.target.checked ) { // Determine whether the shift key was pressed AND check that they are not unchecking
@@ -1161,9 +1158,10 @@ function checkboxHandler( event ) {
 
 
 /* ==== CHECKBOX CHANGE EVENT LISTENERS ====== */
+/* REGULAR CLICK ON A CHECKBOX */
 document.querySelectorAll( '.city-select-input' ).forEach( cityInput => cityInput.addEventListener( 'change', checkboxHandler ) );
-/* If Shift is held down while checking a checkbox */
-document.querySelectorAll( '.city-select-input' ).forEach( checkbox => checkbox.addEventListener( 'click', cbs ) );
+/* SHIFT + CLICK ON A 2ND CHECKBOX */
+document.querySelectorAll( '.city-select-input' ).forEach( checkbox => checkbox.addEventListener( 'click', checkboxShiftHandler ) );
 
 
 </script>
