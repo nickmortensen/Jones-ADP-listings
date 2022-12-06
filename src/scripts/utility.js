@@ -34,7 +34,7 @@ function checkStringForArrayItem( needlesArray, haystackString ) {
 }
 
 function removeClassFromAllItems( items, classToRemove ) {
-	[...document.getElementsByClassName( items )].forEach( item => {
+	[...document.getElementsByClassName( items ) ].forEach( item => {
 		item.classList.contains( classToRemove ) && item.classList.remove( classToRemove )
 	})
 }

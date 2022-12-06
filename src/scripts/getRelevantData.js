@@ -14,8 +14,7 @@ export default function getRelevantData( jobListing ) {
 	let postingInstructionIndex = ( jobListing.postingInstructions.length === 2 ) ? 1 : 0;
 	let output                  = '#' // If no links are given, just output an empty string.
 
-	let reOne = new RegExp('&nbsp;')
-	let reTwo = /&nbsp;/
+	// let writeUp = jobListing.postingInstructions[postingInstructionIndex].nameCode.longName.replace( /((<link[^>]+>|\sstyle=('[^']+'|"[^"]+"))|&nbsp;)/g, '' ) // lose the "link" tags that are inline on all the listings for some reason
 	let hasLinks = Object.hasOwn( jobListing, 'links' );
 
 	if ( hasLinks ) {
@@ -30,7 +29,7 @@ export default function getRelevantData( jobListing ) {
 	} else {
 		output = 'links are undefined';
 	}
-
+const replaceR = /\sand\s/g;
 	return {
 		isVisible,
 		clientRequisitionID: Number(jobListing.clientRequisitionID),
@@ -46,7 +45,7 @@ export default function getRelevantData( jobListing ) {
 		isOpen: jobListing.requisitionStatusCode.shortName,
 		isOpenType: jobListing.requisitionStatusCode.codeValue,
 		locationVisibleIndicator: jobListing.locationVisibleIndicator,
-		jobShortName: jobListing.job.jobCode.shortName.replace( / and /g, ' & ' ),,
+		jobShortName: jobListing.job.jobCode.shortName,
 		jobTitle: jobListing.postingInstructions[postingInstructionIndex].nameCode.codeValue.replace( / and /g, ' & ' ),
 		jobPhoto: getJobPhoto( jobListing.job.jobTitle ),
 		visibleToJobSeekerIndicator: jobListing.visibleToJobSeekerIndicator,
@@ -54,6 +53,5 @@ export default function getRelevantData( jobListing ) {
 		links,
 		// jobId: getLinksData( jobListing.links ).indexOf('jobId') ? new URL( links ).searchParams.get( 'jobId' ) : 0000,
 		locations: getJobCities( jobListing.requisitionLocations ),
-		// writeUp: jobListing.postingInstructions[postingInstructionIndex].nameCode.longName.replace( /((<link[^>]+>|\sstyle=('[^']+'|"[^"]+"))|&nbsp;)/g, '' ), // lose the "link" tags that are inline on all the listings for some reason
 	}
 }

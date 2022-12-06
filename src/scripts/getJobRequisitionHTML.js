@@ -1,5 +1,3 @@
-//import adjustCityName from './adjustCityName.js'; // to normalize city names - i.e "Ashland" becomes "Richmond"
-import getSingleJobHTML from './getSingleJobHTML.js'; // to normalize city names - i.e "Ashland" becomes "Richmond"
 /**
  * Builds the HTML Card for a single job posting.
  * @param {object} singleJob The data array we pull down from the CURL Request for only a single job Requisition from ADP
