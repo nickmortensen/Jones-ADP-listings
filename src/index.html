@@ -980,118 +980,125 @@
 		</div>
 
 
-
+		<!-- HEIPRO ADD THIS -->
 <script type="module">
-			import remoteData from 'https://jobs.jonessign.com/jobsInfo.js'; // compiled with a bash script running on a server querying the ADP WorkforceNow API at regular intervals (cron)
-			import localData from './jobsInfo.js'; // compiled with a bash script running on a server querying the ADP WorkforceNow API at regular intervals (cron)
-			import {
-				mouseMonitor,
-				getRandom,
-				fancyLog,
-				checkArrayForArrayItem,
-				checkStringForArrayItem,
-				removeClassFromAllItems
-			} from './scripts/utility.js';
-			import getRelevantData from './scripts/getRelevantData.js';
-			import getLinksData from './scripts/getLinksData.js';
-			import getSingleJobHTML from './scripts/getSingleJobHTML.js';
-			import getBetterSelect from './scripts/getBetterSelect.js';
-			/**
-			 * Establish as empty set outside of the function context -- this is used in a few different functions.
-			 * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
-			 */
-			const domains = [ 'jonessign', 'joneslightingservices', 'nationalmallfront', 'joneslightingservices', 'jonesarchitecturalcreations', 'jonessportsvenues']
-			// Data should be the remote jobsInfo if this script is locatated on any of the Mortensen Companies web properties.
-			// If it is being worked on locally, then it is OK to use the local version, which isn't as frequently or automatically updated'
-			const data = domains.some( location => location === window.location.host.split('.')[1] ) ? remoteData : localData;
+	import remoteData from 'https://jobs.jonessign.com/jobsInfo.js'; // compiled with a bash script running on a server querying the ADP WorkforceNow API at regular intervals (cron)
+	import localData from './jobsInfo.js'; // compiled with a bash script running on a server querying the ADP WorkforceNow API at regular intervals (cron)
+	import {
+		mouseMonitor,
+		getRandom,
+		fancyLog,
+		checkArrayForArrayItem,
+		checkStringForArrayItem,
+		removeClassFromAllItems
+	} from './scripts/utility.js';
+	import getRelevantData from './scripts/getRelevantData.js';
+	import getLinksData from './scripts/getLinksData.js';
+	import getSingleJobHTML from './scripts/getSingleJobHTML.js';
+	import getBetterSelect from './scripts/getBetterSelect.js';
+	/**
+	 * Establish an empty set in the outer scope
+	 * as we will be adding and subtracting to this set in
+	 * various event listeners we'll establish further down in the script'
+	 * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+	 */
+	const selectedCities = new Set(); // Establish in the upper scope -- we'll be adding to this and subtracting from it periodically'
+	const domains = [
+		'jonessign',
+		'joneslightingservices',
+		'nationalmallfront',
+		'joneslightingservices',
+		'jonesarchitecturalcreations',
+		'jonessportsvenues',
+		'webflow'
+	]; // All of the jones sign - related website domains as of 01-2023 + 'webflow as these domains develop on '${domain}.webflow.io'
 
-			const selectedCities = new Set(); // Establish in the upper scope -- we'll be adding to this and subtracting from it periodically'
+	/**
+	 * If this script is sitting on a live server that houses one of the jones properties,
+	 * then use the job infor data at 'https://jobs.jonessign.com/jobsInfo.js'
+	 * If this is on my local machine, then just use a relative link to the job
+	 **/
+	const data          = domains.some( location => location === window.location.host.split('.')[1] ) ? remoteData : localData;
 
-			/* CREATE THE HTML ELEMENTS FOR the JOB REQUISISONS MODULE */
+	/* CREATE THE HTML ELEMENTS FOR the JOB REQUISISONS MODULE */
 
-			// Add in the checkboxes for each city
-			const module          = document.getElementById( 'job-requisitions-module' ) // Where to insert the new content
-			const selectContainer = module.children[0]
-			selectContainer.insertAdjacentHTML( 'beforeend', getBetterSelect( data, window.innerWidth ) );
+	const module          = document.getElementById( 'job-requisitions-module' ) // Where to insert the new content
+	const selectContainer = module.children[0]
+	selectContainer.insertAdjacentHTML( 'beforeend', getBetterSelect( data, window.innerWidth ) );			// Add in the checkboxes for each city
 
-			/* ===== The job Requisitions are placed within the #job-requisitions-all-requisitions-container ====== */
-			let allJobsHTMLArray = []
-			data.forEach( ( item, index ) => allJobsHTMLArray.push( getSingleJobHTML( getRelevantData( item ), index, 'single-job' ) ) )
-			/* contains individual jobs */
-			module.children[1].insertAdjacentHTML( 'beforeend', allJobsHTMLArray.join( '' ) )
+	/* ===== The job Requisitions are placed within the #job-requisitions-all-requisitions-container ====== */
+	let allJobsHTMLArray = []
+	data.forEach( ( jobOpening, index ) => allJobsHTMLArray.push( getSingleJobHTML( getRelevantData( jobOpening ), index, 'single-job' ) ) )
+	module.children[1].insertAdjacentHTML( 'beforeend', allJobsHTMLArray.join( '' ) ); // all the single jobs currently open within the org
 
-
-
-
-/* ++++++++++++++ DEAL WITH CLEAR SELECTED CITIES BUTTON */
-/* Function to Handle the "clear selected" button being clicked */
-function clearButtonHandler( event ) {
-	selectedCities.clear(); // empty the selectedCities Set -- established in the outer scope
-	document.querySelectorAll( '.city-select-input' ).forEach( cityCheckbox => cityCheckbox.checked = false ); // uncheck all checkboxes
-	const experimentalArray = [
-		[ 'city-select-container', 'inputChecked' ],
-		[ 'city-tag', 'highlight-this-city' ],
-		[ 'single-job', 'doNotDisplay' ]
-	]
-	experimentalArray.forEach( combination => removeClassFromAllItems( combination[0], combination[1]) )
-	setTimeout( () => { event.target.disabled = true }, 400)
-	setTimeout( () => { event.target.textContent = 'filter by city' }, 800)
-}
-const clearButton = document.getElementById( 'clearSelectedCities' )
-clearButton.addEventListener( 'click', clearButtonHandler )
-
-const totalLocations = []
-
-function getOnlyLocations( jobRequisition ) {
-	let returnArray                    = []
-	let allLocationsForThisRequisition = jobRequisition.requisitionLocations;
-	allLocationsForThisRequisition.forEach( location => {
-		returnArray.push( location.nameCode.shortName );
-	})
-	return returnArray;
-}
-
-data.forEach( jobRequisition => totalLocations.push( getOnlyLocations( jobRequisition ) ) )
-const totalLocationsArray = [].concat.apply([], totalLocations )
-
-
-/**
- * SELECT MULTIPLE CHECKBOXES WHEN THE SHIFT KEY IS HELD DOWN
- * If shift key is pressed, they we select the checkboxes between as well
- */
-let cb = {
-	lastChecked: '' // need this for the handleCheck -- will be given a value in the function
-}
-
-function checkboxShiftHandler( event ) {
-	let inBetween = false;
-	// We'd be in a forEach loop of all input[type="checkboxes"] that we added the event listener to
-	if ( event.shiftKey && event.target.checked ) { // Determine whether the shift key was pressed AND check that they are not unchecking
-		// Select multiple checkboxes
-		// loop, look for the initial checkbox that was checked
-		document.querySelectorAll( '.city-select-input' ).forEach( checkbox => {
-			if ( checkbox === event.target || checkbox === cb.lastChecked ) {
-				inBetween = ! inBetween;
-			}
-
-			if ( inBetween ) {
-				checkbox.checked = true;
-				checkbox.parentElement.classList.add( 'inputChecked' )
-				selectedCities.add( checkbox.value );
-			}
-
-		})
+	/* ++++++++++++++ Handle click on the 'CLEAR SELECTED CITIES' BUTTON ++++++++++++++*/
+	/* Function to Handle the "clear selected" button being clicked */
+	function clearButtonHandler( event ) {
+		selectedCities.clear(); // empty the selectedCities Set -- established in the outer scope
+		document.querySelectorAll( '.city-select-input' ).forEach( cityCheckbox => cityCheckbox.checked = false ); // uncheck all checkboxes
+		const experimentalArray = [
+			[ 'city-select-container', 'inputChecked' ],
+			[ 'city-tag', 'highlight-this-city' ],
+			[ 'single-job', 'doNotDisplay' ]
+		]
+		experimentalArray.forEach( combination => removeClassFromAllItems( combination[0], combination[1] ) )
+		setTimeout( () => { event.target.disabled = true }, 400 )
+		setTimeout( () => { event.target.textContent = 'filter by city' }, 800 )
 	}
-	// set lastChecked variable to the checkbox that was selected with the shift key held down
-	cb.lastChecked = event.target;
-}
+	const clearButton = document.getElementById( 'clearSelectedCities' )
+	clearButton.addEventListener( 'click', clearButtonHandler )
+
+
+	// This I think I can throw away as it is in a module
+	const totalLocations = []
+	function getOnlyLocations( jobRequisition ) {
+		let returnArray                    = []
+		let allLocationsForThisRequisition = jobRequisition.requisitionLocations;
+		allLocationsForThisRequisition.forEach( location => {
+			returnArray.push( location.nameCode.shortName );
+		})
+		return returnArray;
+	}
+
+	data.forEach( jobRequisition => totalLocations.push( getOnlyLocations( jobRequisition ) ) )
+	const totalLocationsArray = [].concat.apply([], totalLocations )
+	// END -- This might be worth getting rid of
+
+	/**
+	 * SELECT MULTIPLE CHECKBOXES WHEN THE SHIFT KEY IS HELD DOWN
+	 * If shift key is pressed, they we select the checkboxes between as well
+	 */
+	let cb = {
+		lastChecked: '' // need this for the handleCheck -- established in the upper scope, but will be given a value in the function
+	}
+
+	function checkboxShiftHandler( event ) {
+		let inBetween = false;
+		// We'd be in a forEach loop of all input[type="checkboxes"] that we added the event listener to
+		if ( event.shiftKey && event.target.checked ) { // Determine whether the shift key was pressed AND check that they are not unchecking
+			// Select multiple checkboxes
+			// loop, look for the initial checkbox that was checked
+			document.querySelectorAll( '.city-select-input' ).forEach( checkbox => {
+				if ( checkbox === event.target || checkbox === cb.lastChecked ) {
+					inBetween = ! inBetween;
+				}
+
+				if ( inBetween ) {
+					checkbox.checked = true;
+					checkbox.parentElement.classList.add( 'inputChecked' ); // set 'inputCheeked class onthe containing element'
+					selectedCities.add( checkbox.value );
+				}
+
+			})
+		}
+		// set lastChecked variable to the checkbox that was selected with the shift key held down
+		cb.lastChecked = event.target;
+	}
 
 function checkboxHandler( event ) {
 	const clearButton      = document.getElementById( 'clearSelectedCities' ); // tuck this away for use later in our function.
 	const singleCityName   = event.target.value;
-	let isChecked          = event.target.checked;
-
-	// Sometimes a click on a checkbox will select the checkbox & sometimes it will deselect the checkbox
+	let isChecked          = event.target.checked; // Sometimes a click on a checkbox will select the checkbox & sometimes it deselects the checkbox
 	if ( isChecked ) {
 		selectedCities.add( singleCityName ); // add this city to the set of selected cities
 		event.target.parentElement.classList.add( 'inputChecked' );
@@ -1099,13 +1106,13 @@ function checkboxHandler( event ) {
 		// The change that we are reacting to in this scenario is a previously checked box becomes newly unchecked.
 		/**
 		 * Remove city from our running set of checked city values if it happens to be within that set already
-		 * @note This is kind of an anti-pattern, but it is becoming more and more acceptable & I think it is cool
+		 * @note This && is an anti-pattern, but it is becoming more and more acceptable
 		 * @link https://stackoverflow.com/questions/55585610/if-shorthand-with-double-ampersand
 		 **/
 			selectedCities.has( singleCityName ) && selectedCities.delete( singleCityName );
 			event.target.parentElement.classList.remove( 'inputChecked' ); // Remove the 'inputChecked' class from the input container
 
-			// If a city in a job requisition has been highlighted (in the 'info' tooltip)
+			// If a city in a job requisition has been highlighted (within the 'info' tooltip)
 			// then remove the highlight from that city within the tooltip.
 			const highlightedCities = document.querySelectorAll( '.highlight-this-city' )
 			highlightedCities.forEach( city => singleCityName === city.title && city.classList.remove( 'highlight-this-city' ) )
@@ -1116,7 +1123,7 @@ function checkboxHandler( event ) {
 	const doNotShowClass = 'doNotDisplay';
 
 	/******** LOGGING ********/
-	fancyLog( `size of selected cities is now: ${selectedCities.size}`, '#f1e43f', '#3fa5f1' );
+	// fancyLog( `size of selected cities is now: ${selectedCities.size}`, '#f1e43f', '#3fa5f1' );
 
 	if ( 0 !== selectedCities.size ) {
 		clearButton.textContent = 'clear selected'
@@ -1124,7 +1131,7 @@ function checkboxHandler( event ) {
 
 		/******** LOGGING ********/
 		// Log to console the current value of the chosenCities variable
-		fancyLog( `chosenCitites = [ '${chosenCities.join( '\', \'') }' ]` );
+		// fancyLog( `chosenCitites = [ '${chosenCities.join( '\', \'') }' ]` );
 
 		allOpenings.forEach( (job, index) => {
 			job.querySelectorAll( '.city-tag' ).forEach( city => [...selectedCities].includes( city.title ) && city.classList.add( 'highlight-this-city' ) );
@@ -1132,10 +1139,6 @@ function checkboxHandler( event ) {
 			let cityString      = job.dataset.citystring;
 			let hasClassAlready = job.classList.contains( doNotShowClass );
 			let showThisJob     = checkStringForArrayItem( chosenCities, cityString );
-			let newOrder        = index + 1;
-			newOrder            = allOpenings.length + index;
-
-			let newOrderStyle = `order:`;
 
 			if ( ! showThisJob ) {
 				if ( ! hasClassAlready ) {
@@ -1148,24 +1151,20 @@ function checkboxHandler( event ) {
 			}
 		} )
 	} else {
-		clearButton.textContent = 'filter by city' // Do not tempt visitors to click if there are no cities selected yet
-		clearButton.disabled    = true
+		clearButton.textContent = 'filter by city'; // Do not tempt visitors to click if there are no cities selected yet
+		clearButton.disabled    = true;
 		// Find any job requisitions with the class 'doNotShow' added & remove that class
-		allOpenings.forEach( job => job.classList.contains( doNotShowClass ) && job.classList.remove( doNotShowClass ) )
+		allOpenings.forEach( job => job.classList.contains( doNotShowClass ) && job.classList.remove( doNotShowClass ) );
 	}
 }
 
-
-
-/* ==== CHECKBOX CHANGE EVENT LISTENERS ====== */
-/* REGULAR CLICK ON A CHECKBOX */
-document.querySelectorAll( '.city-select-input' ).forEach( cityInput => cityInput.addEventListener( 'change', checkboxHandler ) );
-/* SHIFT + CLICK ON A 2ND CHECKBOX */
-document.querySelectorAll( '.city-select-input' ).forEach( checkbox => checkbox.addEventListener( 'click', checkboxShiftHandler ) );
-
-
+	/* ==== ADD THE EVENT LISTENERS ====== */
+	/* REGULAR CLICK ON A CHECKBOX */
+	document.querySelectorAll( '.city-select-input' ).forEach( cityInput => cityInput.addEventListener( 'change', checkboxHandler ) );
+	/* SHIFT + CLICK ON A 2ND CHECKBOX */
+	document.querySelectorAll( '.city-select-input' ).forEach( checkbox => checkbox.addEventListener( 'click', checkboxShiftHandler ) );
 </script>
-
+<!-- END HEIPRO ADD THIS -->
 
 	</body>
 
