@@ -368,7 +368,10 @@
 				++++++++++++++++++++++++++++++++++++
 			-->
 
-<!-- note that in production the below stylesheet is going to exist at the url https://jobs.jonessign.com/styles/main.min.css-->
+<!-- SEE LINE 21
+	note that in production the below stylesheet
+	is going to exist at the url https://jobs.jonessign.com/styles/main.min.css
+-->
 <link rel="stylesheet" href="styles/main.min.css">
 
 <!-- ATTN HEIPRO DEV: COPY THIS -->
@@ -979,7 +982,21 @@
 
 		<!-- HEIPRO ADD THIS -->
 <script type="module">
-	import remoteData from 'https://jobs.jonessign.com/jobsInfo.js'; // compiled with a bash script running on a server querying the ADP WorkforceNow API at regular intervals (cron)
+import remoteData from 'https://jobs.jonessign.com/jobsInfo.js'; // compiled with a bash script running on a server querying the ADP WorkforceNow API at regular intervals (cron)
+import localData from './jobsInfo.js'; // compiled with a bash script running on a server querying the ADP WorkforceNow API at regular intervals (cron)
+	import {
+		mouseMonitor,
+		getRandom,
+		fancyLog,
+		checkArrayForArrayItem,
+		checkStringForArrayItem,
+		removeClassFromAllItems
+	} from 'https://jobs.jonessign.com/scripts/utility.js';
+	import getRelevantData from 'https://jobs.jonessign.com/scripts/getRelevantData.js';
+	import getLinksData from 'https://jobs.jonessign.com/scripts/getLinksData.js';
+	import getSingleJobHTML from 'https://jobs.jonessign.com/scripts/getSingleJobHTML.js';
+	import getBetterSelect from 'https://jobs.jonessign.com/scripts/getBetterSelect.js';
+
 	import localData from './jobsInfo.js'; // compiled with a bash script running on a server querying the ADP WorkforceNow API at regular intervals (cron)
 	import {
 		mouseMonitor,

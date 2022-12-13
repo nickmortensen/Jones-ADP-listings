@@ -47,7 +47,7 @@ Simple HTML, CSS, & Javascript for a module that inserts Current [ADP WorkfoceNo
 -->
 
 ```
-3. Add everything from the script tag at the bottom of index.html to the bottom of the webflow page
+3. Add everything from the script tag at the bottom of src/index.html to the bottom of the webflow page -- starts roughly on line 980. Do not forget the <script> tag should have the type attribute set to "module"
 4. Ensure that you add the following line to the head tag in the page:
 ```
 <link href="https://jobs.jonessign.com/styles/main.min.css" rel="stylesheet" type="text/css">
