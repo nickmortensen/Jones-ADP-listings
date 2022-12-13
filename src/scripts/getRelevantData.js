@@ -1,5 +1,6 @@
 import getLinksData from './getLinksData.js';
 import getJobCities from './getJobCities.js';
+import getJobTitle from './getJobTitle.js';
 import getJobPhoto from './getJobPhoto.js';
 
 
@@ -13,7 +14,7 @@ export default function getRelevantData( jobListing ) {
 	let isVisible               = jobListing.visibleToJobSeekerIndicator || true; // boolean
 	let postingInstructionIndex = ( jobListing.postingInstructions.length === 2 ) ? 1 : 0;
 	let output                  = '#' // If no links are given, just output an empty string.
-
+	let jobTitle = getJobTitle( jobListing.postingInstructions[postingInstructionIndex].nameCode.codeValue.replace( / and /g, ' & ' ) );
 	// let writeUp = jobListing.postingInstructions[postingInstructionIndex].nameCode.longName.replace( /((<link[^>]+>|\sstyle=('[^']+'|"[^"]+"))|&nbsp;)/g, '' ) // lose the "link" tags that are inline on all the listings for some reason
 	let hasLinks = Object.hasOwn( jobListing, 'links' );
 
@@ -46,7 +47,7 @@ const replaceR = /\sand\s/g;
 		isOpenType: jobListing.requisitionStatusCode.codeValue,
 		locationVisibleIndicator: jobListing.locationVisibleIndicator,
 		jobShortName: jobListing.job.jobCode.shortName,
-		jobTitle: jobListing.postingInstructions[postingInstructionIndex].nameCode.codeValue.replace( / and /g, ' & ' ),
+		jobTitle,
 		jobPhoto: getJobPhoto( jobListing.job.jobTitle ),
 		visibleToJobSeekerIndicator: jobListing.visibleToJobSeekerIndicator,
 		openingsQuantity: jobListing.openingsQuantity,

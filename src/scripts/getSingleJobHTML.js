@@ -41,7 +41,7 @@ export default function getSingleJobHTMLTWO( { id, links, locations, jobPhoto, j
 
 	const popoverSingle = `
 	<div class="joblocations">
-		<h4 class="cityCount">${adjustCityName( locations[0].split(', ')[0] )}</h4>
+		<h3 class="cityCount">${adjustCityName( locations[0].split(', ')[0] )}</h3>
 	</div>`
 	const citiesPopover = locations.length == 1 ? popoverSingle : `<div class="joblocations"><h3 class="cityCount">${locations.length } Locations</h3> ${citiesTooltip}</div>`;
 	const order = Number( index - 1 );
