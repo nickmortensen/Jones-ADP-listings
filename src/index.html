@@ -368,6 +368,10 @@
 				++++++++++++++++++++++++++++++++++++
 			-->
 
+
+
+
+
 <!-- SEE LINE 21
 	note that in production the below stylesheet
 	is going to exist at the url https://jobs.jonessign.com/styles/main.min.css
@@ -395,6 +399,52 @@
 -->
 <!-- ATTN HEIPRO DEV: END OF COPY THIS -->
 
+
+<!-- Pre tag will place the copy of the script into a pre element
+	wherein a user could simply copy and paste
+	but we will also construct a button that - when clicked - copies the entire script
+	to the client pasteboard
+-->
+<style>
+	.styled {
+		border: 0;
+		line-height: 2.5;
+		padding: 0 20px;
+		font-size: 1rem;
+		text-align: center;
+		color: #fff;
+		text-shadow: 1px 1px 1px #000;
+		border-radius: 10px;
+		background-color: rgba(220, 0, 0, 1);
+		background-image: linear-gradient(to top left, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 30%, rgba(0, 0, 0, 0));
+		box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6), inset -2px -2px 3px rgba(0, 0, 0, .6);
+	}
+
+	.styled:hover {
+		background-color: rgba(255, 0, 0, 1);
+	}
+
+	.styled:active {
+		box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+					inset 2px 2px 3px rgba(0, 0, 0, .6);
+	}
+
+
+	pre#scriptAsText {
+		padding: 2vmax 8px;
+		font-size:14px;
+		line-height: 1.2;
+		min-width: 800px;
+		min-height: 600px;
+		width: 100%;
+		height: 15vmax;
+		color: var(--yellow);
+		background: rgba(0 0 0 /.6);
+	}
+</style>
+<button id="copySciptContent" class="favorite styled" type="button">Copy Scipt</button>
+<pre id="scriptAsText"> script should appear here </pre>
+<!-- end <pre> tag experiment -->
 
 			<!--
 				++++++++++++++++++++++++++++++++++++
@@ -982,20 +1032,21 @@
 
 		<!-- HEIPRO ADD THIS -->
 <script type="module">
-import remoteData from 'https://jobs.jonessign.com/jobsInfo.js'; // compiled with a bash script running on a server querying the ADP WorkforceNow API at regular intervals (cron)
-import localData from './jobsInfo.js'; // compiled with a bash script running on a server querying the ADP WorkforceNow API at regular intervals (cron)
+	/* ======== Updated on December 14 2022 ======== */
+	import remoteData from 'https://jobs.jonessign.com/jobsInfo.js'; // compiled with a bash script running on a server querying the ADP WorkforceNow API at regular intervals (cron)
+	import localData from './jobsInfo.js'; // compiled with a bash script running on a server querying the ADP WorkforceNow API at regular intervals (cron)
 	import {
-		mouseMonitor,
-		getRandom,
-		fancyLog,
-		checkArrayForArrayItem,
-		checkStringForArrayItem,
-		removeClassFromAllItems
-	} from 'https://jobs.jonessign.com/scripts/utility.js';
-	import getRelevantData from 'https://jobs.jonessign.com/scripts/getRelevantData.js';
-	import getLinksData from 'https://jobs.jonessign.com/scripts/getLinksData.js';
-	import getSingleJobHTML from 'https://jobs.jonessign.com/scripts/getSingleJobHTML.js';
-	import getBetterSelect from 'https://jobs.jonessign.com/scripts/getBetterSelect.js';
+			mouseMonitor,
+			getRandom,
+			fancyLog,
+			checkArrayForArrayItem,
+			checkStringForArrayItem,
+			removeClassFromAllItems
+		} from 'https://jobs.jonessign.com/scripts/utility.js';
+		import getRelevantData from 'https://jobs.jonessign.com/scripts/getRelevantData.js';
+		import getLinksData from 'https://jobs.jonessign.com/scripts/getLinksData.js';
+		import getSingleJobHTML from 'https://jobs.jonessign.com/scripts/getSingleJobHTML.js';
+		import getBetterSelect from 'https://jobs.jonessign.com/scripts/getBetterSelect.js';
 
 	/**
 	 * Establish an empty set in the outer scope
@@ -1167,6 +1218,34 @@ function checkboxHandler( event ) {
 </script>
 <!-- END HEIPRO ADD THIS -->
 
+
+
+<script>
+
+let scriptToParse = document.querySelector( 'script[type="module"]' )
+let myScript = scriptToParse.outerHTML; // include the script tag itself
+let preElement = document.getElementById( 'scriptAsText' )
+preElement = document.querySelector( '#scriptAsText' )
+preElement.textContent = myScript
+
+
+
+/**
+ * Handle the clicking of the Copy Button
+ **/
+function copyScriptButtonHandler( event ) {
+	if ( event.target.textContent == 'Copied!' ) {
+		event.target.textContent = 'Copy Script'
+	} else {
+		event.target.textContent = 'Copied!'
+	}
+	navigator.clipboard.writeText( document.querySelector( 'script[type="module"]' ).outerHTML )
+}
+// Button that when clicked - will copy the script to the client pasteboard
+const copyScriptButton = document.getElementById('copySciptContent');
+copyScriptButton.addEventListener( 'click', copyScriptButtonHandler )
+console.log( copyScriptButton )
+</script>
 	</body>
 
 
