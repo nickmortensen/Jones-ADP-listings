@@ -407,6 +407,7 @@
 -->
 <style>
 	.styled {
+		margin: 0 auto;
 		border: 0;
 		line-height: 2.5;
 		padding: 0 20px;
@@ -421,12 +422,11 @@
 	}
 
 	.styled:hover {
-		background-color: rgba(255, 0, 0, 1);
+		background-color: rgba(255, 60, 80, 1);
 	}
 
 	.styled:active {
-		box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
-					inset 2px 2px 3px rgba(0, 0, 0, .6);
+		box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6), inset 2px 2px 3px rgba(0, 0, 0, .6);
 	}
 
 
@@ -1041,13 +1041,13 @@ would be to edit the hosts file at etc/hosts to have
 	/* ======== Updated on December 14 2022 ======== */
 	import jobsData from 'https://jobs.jonessign.com/jobsInfo.js'; // remote version from cron job at jobs.jonessign.com
 	import {
-			mouseMonitor,
-			getRandom,
-			fancyLog,
-			checkArrayForArrayItem,
-			checkStringForArrayItem,
-			removeClassFromAllItems
-		} from 'https://jobs.jonessign.com/scripts/utility.js';
+		mouseMonitor,
+		getRandom,
+		fancyLog,
+		checkArrayForArrayItem,
+		checkStringForArrayItem,
+		removeClassFromAllItems
+	} from 'https://jobs.jonessign.com/scripts/utility.js';
 	import getRelevantData from 'https://jobs.jonessign.com/scripts/getRelevantData.js';
 	import getLinksData from 'https://jobs.jonessign.com/scripts/getLinksData.js';
 	import getSingleJobHTML from 'https://jobs.jonessign.com/scripts/getSingleJobHTML.js';
