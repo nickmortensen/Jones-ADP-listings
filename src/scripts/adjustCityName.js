@@ -15,6 +15,9 @@ export default function adjustCityName( requisitionCity ) {
 		case 'Minneapolis':
 			cityName = 'St. Paul';
 			break;
+		case 'San Juan':
+			cityName = 'San Juan, Puerto Rico';
+			break;
 		default:
 			cityName = requisitionCity
 	}
