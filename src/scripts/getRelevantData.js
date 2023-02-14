@@ -12,10 +12,21 @@ import getJobPhoto from './getJobPhoto.js';
 export default function getRelevantData( jobListing ) {
 	let links                   = [ '', '' ]
 	let isVisible               = jobListing.visibleToJobSeekerIndicator || true; // boolean
-	let postingInstructionIndex = ( jobListing.postingInstructions.length === 2 ) ? 1 : 0;
+	let postingInstructionsQty  = jobListing.postingInstructions.length;
+	let hasMoreThanOnePostingInstruction = postingInstructionsQty > 1;
+	let postingInstructionIndex = ( jobListing.postingInstructions.length === 1 ) ? 0 : 1;
 	let output                  = '#' // If no links are given, just output an empty string.
-	let jobTitle = getJobTitle( jobListing.postingInstructions[postingInstructionIndex].nameCode.codeValue.replace( / and /g, ' & ' ) );
-	// let writeUp = jobListing.postingInstructions[postingInstructionIndex].nameCode.longName.replace( /((<link[^>]+>|\sstyle=('[^']+'|"[^"]+"))|&nbsp;)/g, '' ) // lose the "link" tags that are inline on all the listings for some reason
+
+	let jobTitle = (jobListing.postingInstructions.length > 1 && jobListing.postingInstructions[1].nameCode.codeValue !== 'undefined' ) ? getJobTitle( jobListing.postingInstructions[1].nameCode.codeValue.replace( / and /g, ' & ' ) ) : getJobTitle( jobListing.postingInstructions[0].nameCode.codeValue.replace( / and /g, ' & ' ) )
+	let altJobName = jobTitle;
+	if ( Object.prototype.hasOwnProperty.call( jobListing.job.jobCode, 'shortName' ) ) {
+		altJobName = jobListing.job.jobCode.shortName.trim();
+	} else if( ! Object.prototype.hasOwnProperty.call( jobListing.job.jobCode, 'shortName' ) && Object.prototype.hasOwnProperty.call( jobListing.job.jobCode, 'longName' )) {
+		altJobName = jobListing.job.jobCode.longName.trim()
+	} else {
+		altJobName = jobTitle;
+	}
+	jobTitle                    = jobTitle.trim()
 	let hasLinks = Object.hasOwn( jobListing, 'links' );
 
 	if ( hasLinks ) {
@@ -46,9 +57,9 @@ const replaceR = /\sand\s/g;
 		isOpen: jobListing.requisitionStatusCode.shortName,
 		isOpenType: jobListing.requisitionStatusCode.codeValue,
 		locationVisibleIndicator: jobListing.locationVisibleIndicator,
-		jobShortName: jobListing.job.jobCode.shortName,
+		jobShortName: altJobName,
 		jobTitle,
-		jobPhoto: getJobPhoto( jobListing.job.jobTitle ),
+		jobPhoto: getJobPhoto( jobTitle.trim() ),
 		visibleToJobSeekerIndicator: jobListing.visibleToJobSeekerIndicator,
 		openingsQuantity: jobListing.openingsQuantity,
 		links,

@@ -1038,8 +1038,9 @@ would be to edit the hosts file at etc/hosts to have
 
 		<!-- HEIPRO ADD THIS -->
 <script type="module">
-	/* ======== Updated on December 15 2022 ======== */
+	/* ======== Updated on Feb 12, 2023 ======== */
 	import jobsData from 'https://jobs.jonessign.com/jobsInfo.js'; // remote version from cron job at jobs.jonessign.com
+
 	import {
 		mouseMonitor,
 		getRandom,
@@ -1053,6 +1054,22 @@ would be to edit the hosts file at etc/hosts to have
 	import getSingleJobHTML from 'https://jobs.jonessign.com/scripts/getSingleJobHTML.js';
 	import getBetterSelect from 'https://jobs.jonessign.com/scripts/getBetterSelect.js';
 
+/*
+ * WHEN DEVELOPING LOCALLY -- COMMENT OUT THE ABOVE AND UNCOMMENT THE FOLLOWING
+import jobsData from '../jobsInfo.js' // only for local development
+	import {
+		mouseMonitor,
+		getRandom,
+		fancyLog,
+		checkArrayForArrayItem,
+		checkStringForArrayItem,
+		removeClassFromAllItems
+	} from './scripts/utility.js';
+	import getRelevantData from './scripts/getRelevantData.js';
+	import getLinksData from './scripts/getLinksData.js';
+	import getSingleJobHTML from './scripts/getSingleJobHTML.js';
+	import getBetterSelect from './scripts/getBetterSelect.js';
+*/
 	/**
 	 * Establish an empty set in the outer scope
 	 * as we will be adding and subtracting to this set in
@@ -1070,6 +1087,14 @@ would be to edit the hosts file at etc/hosts to have
 	let allJobsHTMLArray = [];
 	jobsData.forEach( ( jobOpening, index ) => allJobsHTMLArray.push( getSingleJobHTML( getRelevantData( jobOpening ), index, 'single-job' ) ) );
 	module.children[1].insertAdjacentHTML( 'beforeend', allJobsHTMLArray.join( '' ) ); // all the single jobs currently open within the org
+
+
+/* LOCAL DEVELOPMENT ONLY
+jobsData.forEach( ( jobOpening, index ) => console.log( getRelevantData( jobOpening ).jobTitle, ':  ', getRelevantData( jobOpening ).jobShortName ) )
+*/
+
+
+
 
 	/* Handle click on the 'CLEAR SELECTED CITIES' BUTTON */
 	function clearButtonHandler( event ) {
