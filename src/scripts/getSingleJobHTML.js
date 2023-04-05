@@ -1,4 +1,5 @@
 import adjustCityName from './adjustCityName.js'; // to normalize city names - i.e "Ashland" becomes "Richmond"
+// import getJobStructuredData from './getJobStructuredData.js'
 /**
  * Builds the HTML Card for a single job posting.
  * @param {object} singleJob The data array we pull down from the CURL Request for only a single job Requisition from ADP
@@ -29,7 +30,11 @@ function getJobFigure( jobPhoto, jobName ) {
 
 // export default function getSingleJobHTMLTWO( jobInfo, index, cssClass = 'single-job' ) {
 export default function getSingleJobHTMLTWO( { id, links, locations, jobPhoto, jobTitle, isOpen, visible, openingsQuantity, effectiveDate, isOpenType, visibleToJobSeekerIndicator } = jobInfo, index, cssClass = 'single-job' ) {
+
+	// const jobStructuredData = getJobStructuredData( jobInfo )
 	/* Don't create the HTML if the item has the visibleToJobSeekerIndicator set to 'false' */
+
+// console.log( jobStructuredData )
 	if ( false === visibleToJobSeekerIndicator ) {
 		return;
 	}
@@ -47,7 +52,19 @@ export default function getSingleJobHTMLTWO( { id, links, locations, jobPhoto, j
 	const order = Number( index - 1 );
 
 	const jobImageFigure = getJobFigure( jobPhoto, jobTitle );
+
+
+
+
+
+
+
+
 	const jobPostedDiv = `<div class="jobposted" data-key="effective-date"> <strong>Posted:&nbsp; </strong>${effectiveDate} </div><!-- end div.jobposted -->`
+
+
+
+
 	const output = `
 <div
 	class="${cssClass}"

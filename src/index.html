@@ -68,6 +68,7 @@
 								</nav>
 							</div>
 							<a href="/services/services-national-sign-company" class="nav-link w-inline-block"><div>Services</div></a>
+							<a href="./seo.html" class="nav-link w-inline-block"><div>SEO</div></a>
 							<div data-hover="true" data-delay="0" class="nav-dropdown w-dropdown" style="">
 								<div class="dropdown-toggle w-dropdown-toggle" id="w-dropdown-toggle-1" aria-controls="w-dropdown-list-1" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0">
 									<div>PORTFOLIO</div>
@@ -326,12 +327,81 @@
 				++++++++++++++++++++++++++++++++++++
 			-->
 
+
+
+
+
+
+
+
+
 			<!--
 				++++++++++++++++++++++++++++++++++++
 				ABOUT JONES HISTORY + EXPLORE OPENINGS CTA
 				++++++++++++++++++++++++++++++++++++
 			-->
 			<div class="section blue-section sub-video-overlap-section wf-section">
+
+
+				<div class="wrapper">
+
+
+
+					<!-- Pre tag will place the copy of the script into a pre element
+						wherein a user could simply copy and paste
+						but we will also construct a button that - when clicked - copies the entire script
+						to the client pasteboard
+					-->
+					<style>
+						.styled {
+							margin: 0 auto;
+							border: 0;
+							line-height: 2.5;
+							padding: 0 20px;
+							font-size: 1rem;
+							text-align: center;
+							color: #fff;
+							text-shadow: 1px 1px 1px #000;
+							border-radius: 10px;
+							background-color: rgba(220, 0, 0, 1);
+							background-image: linear-gradient(to top left, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 30%, rgba(0, 0, 0, 0));
+							box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6), inset -2px -2px 3px rgba(0, 0, 0, .6);
+						}
+
+						.styled:hover {
+							background-color: rgba(255, 60, 80, 1);
+						}
+
+						.styled:active {
+							box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6), inset 2px 2px 3px rgba(0, 0, 0, .6);
+						}
+
+
+						pre#scriptAsText {
+							padding: 2vmax 8px;
+							font-size:14px;
+							line-height: 1.2;
+							min-width: 800px;
+							min-height: 600px;
+							width: 100%;
+							height: 15vmax;
+							color: var(--yellow);
+							background: rgba(0 0 0 /.6);
+							font-family: 'Fira Code', 'segoe ui', monospace, sans-serif;
+						}
+					</style>
+					<button id="copySciptContent" class="favorite styled" type="button">Copy Scipt</button>
+					<pre id="scriptAsText"> script should appear here </pre>
+					<!-- end <pre> tag experiment -->
+
+
+					</div>
+
+
+
+
+
+
 				<div class="wrapper">
 					<div class="margin">
 						<div class="w-layout-grid grid">
@@ -399,52 +469,6 @@
 -->
 <!-- ATTN HEIPRO DEV: END OF COPY THIS -->
 
-
-<!-- Pre tag will place the copy of the script into a pre element
-	wherein a user could simply copy and paste
-	but we will also construct a button that - when clicked - copies the entire script
-	to the client pasteboard
--->
-<style>
-	.styled {
-		margin: 0 auto;
-		border: 0;
-		line-height: 2.5;
-		padding: 0 20px;
-		font-size: 1rem;
-		text-align: center;
-		color: #fff;
-		text-shadow: 1px 1px 1px #000;
-		border-radius: 10px;
-		background-color: rgba(220, 0, 0, 1);
-		background-image: linear-gradient(to top left, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 30%, rgba(0, 0, 0, 0));
-		box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6), inset -2px -2px 3px rgba(0, 0, 0, .6);
-	}
-
-	.styled:hover {
-		background-color: rgba(255, 60, 80, 1);
-	}
-
-	.styled:active {
-		box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6), inset 2px 2px 3px rgba(0, 0, 0, .6);
-	}
-
-
-	pre#scriptAsText {
-		padding: 2vmax 8px;
-		font-size:14px;
-		line-height: 1.2;
-		min-width: 800px;
-		min-height: 600px;
-		width: 100%;
-		height: 15vmax;
-		color: var(--yellow);
-		background: rgba(0 0 0 /.6);
-	}
-</style>
-<button id="copySciptContent" class="favorite styled" type="button">Copy Scipt</button>
-<pre id="scriptAsText"> script should appear here </pre>
-<!-- end <pre> tag experiment -->
 
 			<!--
 				++++++++++++++++++++++++++++++++++++
@@ -1041,6 +1065,8 @@ would be to edit the hosts file at etc/hosts to have
 	/* ======== Updated on Feb 12, 2023 ======== */
 	import jobsData from 'https://jobs.jonessign.com/jobsInfo.js'; // remote version from cron job at jobs.jonessign.com
 
+	/*
+ * WHEN DEVELOPING LOCALLY -- COMMENT OUT THE ABOVE AND UNCOMMENT THE FOLLOWING
 	import {
 		mouseMonitor,
 		getRandom,
@@ -1051,12 +1077,12 @@ would be to edit the hosts file at etc/hosts to have
 	} from 'https://jobs.jonessign.com/scripts/utility.js';
 	import getRelevantData from 'https://jobs.jonessign.com/scripts/getRelevantData.js';
 	import getLinksData from 'https://jobs.jonessign.com/scripts/getLinksData.js';
+	import getJobStructuredData from 'https://jobs.jonessign.com/scripts/getJobStructuredData.js';
 	import getSingleJobHTML from 'https://jobs.jonessign.com/scripts/getSingleJobHTML.js';
 	import getBetterSelect from 'https://jobs.jonessign.com/scripts/getBetterSelect.js';
+*/
 
-/*
- * WHEN DEVELOPING LOCALLY -- COMMENT OUT THE ABOVE AND UNCOMMENT THE FOLLOWING
-import jobsData from '../jobsInfo.js' // only for local development
+
 	import {
 		mouseMonitor,
 		getRandom,
@@ -1066,10 +1092,11 @@ import jobsData from '../jobsInfo.js' // only for local development
 		removeClassFromAllItems
 	} from './scripts/utility.js';
 	import getRelevantData from './scripts/getRelevantData.js';
+	// import getJobStructuredData from './scripts/getJobStructuredData.js';
 	import getLinksData from './scripts/getLinksData.js';
 	import getSingleJobHTML from './scripts/getSingleJobHTML.js';
 	import getBetterSelect from './scripts/getBetterSelect.js';
-*/
+
 	/**
 	 * Establish an empty set in the outer scope
 	 * as we will be adding and subtracting to this set in
@@ -1088,12 +1115,83 @@ import jobsData from '../jobsInfo.js' // only for local development
 	jobsData.forEach( ( jobOpening, index ) => allJobsHTMLArray.push( getSingleJobHTML( getRelevantData( jobOpening ), index, 'single-job' ) ) );
 	module.children[1].insertAdjacentHTML( 'beforeend', allJobsHTMLArray.join( '' ) ); // all the single jobs currently open within the org
 
+// LOCAL DEVELOPMENT ONLY
+// jobsData.forEach( ( jobOpening, index ) => console.log( getRelevantData( jobOpening ).jobTitle, ':  ', getRelevantData( jobOpening ).jobShortName ) )
+let index = 10
+fancyLog('all the data: ')
+console.log(jobsData[index], ' is all the jobs data')
 
-/* LOCAL DEVELOPMENT ONLY
-jobsData.forEach( ( jobOpening, index ) => console.log( getRelevantData( jobOpening ).jobTitle, ':  ', getRelevantData( jobOpening ).jobShortName ) )
-*/
+fancyLog( 'getRelevantData: ' )
+
+console.table(getRelevantData( jobsData[index] ) )
+
+const totalJobs = jobsData.length
+fancyLog( totalJobs )
+
+jobsData.forEach( (jobData) => {
+	let jobTitle = (jobData.postingInstructions.length > 1 && jobData.postingInstructions[1].nameCode.codeValue !== 'undefined' ) ? jobData.postingInstructions[1].nameCode.codeValue.replace( / and /g, ' & ' ) : jobData.postingInstructions[0].nameCode.codeValue.replace( / and /g, ' & ' )
+	let employmentType = getRelevantData( jobData).employmentType;
+fancyLog( `${jobTitle} is ${employmentType} work` )
+
+})
+
+console.log( jobsData[index].workerTypeCode.shortName )
+
+function getJobStructuredData(jobInfo) {
+const { clientRequisitionID, id, startDate, visible, openingsQuantity, companyName, effectiveDate, jobTitle, jobShortName, jobPhoto, visibleToJobSeekerIndicator, employmentType } = jobInfo;
 
 
+
+
+const writeUp = 'This will be the description of the position in short'
+	const output =`{
+		"@context" : "https://schema.org/",
+		"@type" : "JobPosting",
+		"title" : "${jobTitle}",
+		"description" : "<p>${writeUp}</p>",
+		"identifier": {
+			"@type": "PropertyValue",
+			"name": "WorkForceNowID",
+			"value": "${clientRequisitionID}"
+		},
+		"datePosted" : "${effectiveDate}",
+		"validThrough" : "${startDate}",
+		"employmentType" : "${employmentType}",
+		"hiringOrganization" : {
+			"@type" : "Organization",
+			"name" : "Jones Sign Company, Inc.",
+			"sameAs" : "https://jonessign.com",
+			"logo" : "https://www.example.com/images/logo.png"
+		},
+		"jobLocation": {
+			"@type": "Place",
+			"address": {
+				"@type": "PostalAddress",
+				"streetAddress": "1711 Scheuring Road",
+				"addressLocality": "DePere",
+				"addressRegion": "WI",
+				"postalCode": "54115",
+				"addressCountry": "US"
+			}
+		}
+	}`
+	return output;
+}
+
+const placeInsidePreElement = getJobStructuredData( getRelevantData(jobsData[index]) )
+
+let preElement = document.getElementById( 'scriptAsText' )
+
+let schemaScript = document.createElement( 'script' )
+schemaScript.type = 'application/ld+json'
+
+schemaScript.textContent = placeInsidePreElement
+
+
+
+
+
+preElement.textContent = schemaScript.outerHTML
 
 
 	/* Handle click on the 'CLEAR SELECTED CITIES' BUTTON */
@@ -1216,11 +1314,20 @@ jobsData.forEach( ( jobOpening, index ) => console.log( getRelevantData( jobOpen
 
 <script>
 
-let scriptToParse = document.querySelector( 'script[type="module"]' )
-let myScript = scriptToParse.outerHTML; // include the script tag itself
-let preElement = document.getElementById( 'scriptAsText' )
-preElement = document.querySelector( '#scriptAsText' )
-preElement.textContent = myScript
+// const jobStructuredData = getJobStructuredData(data[1])
+
+// let jobTitle = 'TEST'
+// let effectiveDate = '12-01-2023'
+// let scriptToParse = document.querySelector( 'script[type="module"]' )
+// let myScript = scriptToParse.outerHTML; // include the script tag itself
+
+//preElement = document.querySelector( '#scriptAsText' )
+// preElement.textContent = myScript
+
+
+
+
+
 
 
 
@@ -1238,7 +1345,7 @@ function copyScriptButtonHandler( event ) {
 // Button that when clicked - will copy the script to the client pasteboard
 const copyScriptButton = document.getElementById('copySciptContent');
 copyScriptButton.addEventListener( 'click', copyScriptButtonHandler )
-console.log( copyScriptButton )
+
 </script>
 	</body>
 

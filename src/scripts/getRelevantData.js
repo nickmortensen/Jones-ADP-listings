@@ -2,22 +2,25 @@ import getLinksData from './getLinksData.js';
 import getJobCities from './getJobCities.js';
 import getJobTitle from './getJobTitle.js';
 import getJobPhoto from './getJobPhoto.js';
-
-
+// 168.149.26.125
+// 79.139.36.148
+// 77.223.228.161
 /**
+ * bacambo1@hotmail.com
  * Only pull select data from a job listing -- the stuff we'll need to use the getSingleJobHTML function.
  * @param {object} jobListing Job Listing is the data without any manipulation from a single job requisition run through the getRelevantData function
  * @returns {object} An object of data that we are most likely to use when building the HTML to display a single location.
  */
 export default function getRelevantData( jobListing ) {
 	let links                   = [ '', '' ]
-	let isVisible               = jobListing.visibleToJobSeekerIndicator || true; // boolean
-	let postingInstructionsQty  = jobListing.postingInstructions.length;
-	let hasMoreThanOnePostingInstruction = postingInstructionsQty > 1;
-	let postingInstructionIndex = ( jobListing.postingInstructions.length === 1 ) ? 0 : 1;
+	//let isVisible               = jobListing.visibleToJobSeekerIndicator || true; // boolean
 	let output                  = '#' // If no links are given, just output an empty string.
 
 	let jobTitle = (jobListing.postingInstructions.length > 1 && jobListing.postingInstructions[1].nameCode.codeValue !== 'undefined' ) ? getJobTitle( jobListing.postingInstructions[1].nameCode.codeValue.replace( / and /g, ' & ' ) ) : getJobTitle( jobListing.postingInstructions[0].nameCode.codeValue.replace( / and /g, ' & ' ) )
+
+	// let employmentType = jobListing.hasOwnProperty( 'workerTypeCode') && jobListing.workerTypeCode.hasOwnProperty('shortName') ? jobListing.workerTypeCode.shortName: "Full Time";
+	let employmentType = Object.hasOwn( jobListing, 'workerTypeCode' ) && Object.hasOwn( jobListing['workerTypeCode'],'shortName' ) ? jobListing.workerTypeCode.shortName: 'Full Time';
+
 	let altJobName = jobTitle;
 	if ( Object.prototype.hasOwnProperty.call( jobListing.job.jobCode, 'shortName' ) ) {
 		altJobName = jobListing.job.jobCode.shortName.trim();
@@ -41,17 +44,19 @@ export default function getRelevantData( jobListing ) {
 	} else {
 		output = 'links are undefined';
 	}
-const replaceR = /\sand\s/g;
+
+	// let employmentType = jobListing.workerTypeCode.shortName;
+
 	return {
-		isVisible,
 		clientRequisitionID: Number(jobListing.clientRequisitionID),
+		employmentType,
 		id: jobListing.itemID,
 		startDate: jobListing.projectedStartDate,
 		visible: jobListing.visibleToJobSeekerIndicator,
 		openingsQuantity: jobListing.openingsQuantity,
 		companyName: jobListing.companyName,
 		internalIndicator: jobListing.internalIndicator,
-		locationVisibleIndicator: jobListing.locationVisibleIndicator,
+		isVisible: jobListing.locationVisibleIndicator,
 		compensationVisibleIndicator: jobListing.compensationVisibleIndicator,
 		effectiveDate: new Date( jobListing.requisitionStatusCode.effectiveDate ).toLocaleDateString(),
 		isOpen: jobListing.requisitionStatusCode.shortName,

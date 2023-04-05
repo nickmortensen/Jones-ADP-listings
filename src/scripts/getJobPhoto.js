@@ -61,7 +61,7 @@ export default function getJobPhoto( jobTitle ) {
 		case 'Painter/Paint Prepper':
 		case 'Painter/Prepper - 2nd Shift':
 		case 'Pintor Automotriz':
-			totalJobPhotos = 2
+			totalJobPhotos = 4
 			jobSlug        = 'painter_0';
 			jobPhoto       = getJobPhotoFileName(jobSlug, totalJobPhotos)
 			output         = getFullUrl(jobPhoto);
@@ -77,11 +77,14 @@ export default function getJobPhoto( jobTitle ) {
 		 * Can I just make an array and use 'includes' instead of many case statements?
 		 * YOU BET!
 		 */
-		case ['Billing Coordinator', 'Subcontract Manager', 'Proposal Coordinator', 'Associate Buyer'].includes( jobTitle.trim() ):
+		case ['Billing Coordinator', 'Proposal Coordinator', 'Associate Buyer'].includes( jobTitle.trim() ):
 			output = getFullUrl( 'service_coordinator_00.jpg' );
 			break;
+			case 'Subcontract Manager':
+				output = getFullUrl( 'subcontract_manager_00.jpg' )
+				break;
 		case 'Fabricator':
-			totalJobPhotos = 3
+			totalJobPhotos = 5
 			jobSlug        = 'fabricator_0';
 			jobPhoto       = getJobPhotoFileName(jobSlug, totalJobPhotos)
 			output         = getFullUrl( jobPhoto );
@@ -102,6 +105,7 @@ export default function getJobPhoto( jobTitle ) {
 		case 'Assembler':
 		case 'Assembler - PLC':
 		case 'Ensamblaje':
+		case 'Assembler - PLC - Green Bay, WI':
 			totalJobPhotos = 3
 			jobSlug     = 'assembler_0'
 			jobPhoto    = getJobPhotoFileName(jobSlug, totalJobPhotos)
@@ -110,17 +114,25 @@ export default function getJobPhoto( jobTitle ) {
 		case 'Installer':
 		case 'Installer - Remote':
 		case 'Instaladores de Letreros':
-		case 'Proposals':
-			totalJobPhotos = 4
+			totalJobPhotos = 7
 			jobSlug        = 'installer_0';
 			jobPhoto       = getJobPhotoFileName(jobSlug, totalJobPhotos)
 			output         = getFullUrl(jobPhoto);
 			break;
+
+		case 'Billboard Installer':
+			output = getFullUrl( 'installer_05.jpg');
+			break;
 		case 'Router Operator':
 		case 'CNC Operator':
-		case 'CNC Routing Programmer':
 			totalJobPhotos = 1
 			jobSlug        = 'cnc_operator_0';
+			jobPhoto       = getJobPhotoFileName(jobSlug, totalJobPhotos)
+			output         = getFullUrl(jobPhoto);
+			break;
+		case 'CNC Routing Programmer':
+			totalJobPhotos = 2
+			jobSlug        = 'cnc_programmer_0';
 			jobPhoto       = getJobPhotoFileName(jobSlug, totalJobPhotos)
 			output         = getFullUrl(jobPhoto);
 			break;
@@ -138,6 +150,7 @@ export default function getJobPhoto( jobTitle ) {
 		case 'National Account Sales Executive':
 		case 'National Sales Executive':
 		case 'Commercial Sales Exec':
+		case 'Sign Sales Executive (Commerical Projects)':
 			totalJobPhotos = 3
 			jobSlug        = 'sales_0'
 			jobPhoto       = getJobPhotoFileName(jobSlug, totalJobPhotos)
@@ -153,12 +166,20 @@ export default function getJobPhoto( jobTitle ) {
 			output = getFullUrl( 'cad_00.jpg' );
 			break;
 		case 'Designer':
+		case 'Illuminated Sign Designer (Sketch Up/Illustrator)':
 			output = getFullUrl( 'drafter.jpg' );
 			break;
 		case 'Director - National Accounts':
 		case 'IT Helpdesk Analyst':
-		case 'Accounting Manager':
 			output = getFullUrl( 'designer.jpg' );
+			break;
+		case 'Front Office Assistant / Accounting (Part-time)':
+		case 'Accounting Manager':
+		case 'Staff Accountant':
+			totalJobPhotos = 3
+			jobSlug        = 'accountant_0'
+			jobPhoto       = getJobPhotoFileName(jobSlug, totalJobPhotos)
+			output = getFullUrl( jobPhoto );
 			break;
 		case 'Production Supervisor':
 		case 'Preconstruction Estimator':
@@ -166,6 +187,8 @@ export default function getJobPhoto( jobTitle ) {
 			break;
 		case 'Construction Project Lead':
 		case 'Construction Project Director/Leader':
+		case 'Director of Construction':
+		case 'Construction Project Manager - Commercial/Large Construction':
 			totalJobPhotos = 3
 			jobSlug        = 'construction_project_lead_0';
 			jobPhoto       = getJobPhotoFileName(jobSlug, totalJobPhotos)
@@ -184,12 +207,25 @@ export default function getJobPhoto( jobTitle ) {
 			jobPhoto       = getJobPhotoFileName(jobSlug, totalJobPhotos)
 			output         = getFullUrl(jobPhoto);
 			break;
+		// case '':
 		case 'Business Analyst':
-		case 'Proposal Manager - National Accounts':
+			totalJobPhotos = 4
+			jobSlug        = 'business_analyst_0';
+			jobPhoto       = getJobPhotoFileName(jobSlug, totalJobPhotos)
+			output         = getFullUrl(jobPhoto);
+			break;
+		case 'Proposals':
+		case 'Proposal Manager (Sales/Marketing)':
 			totalJobPhotos = 2
 			jobSlug        = 'business_analyst_0';
 			jobPhoto       = getJobPhotoFileName(jobSlug, totalJobPhotos)
 			output         = getFullUrl(jobPhoto);
+			break;
+		case 'Proposal Manager - National Accounts':
+			output = getFullUrl( 'proposal_manager_00.jpg' )
+			break;
+		case 'Service & Lighting Project Manager':
+			output = getFullUrl( 'lighting_pm_00.jpg' )
 			break;
 		default:
 			output = getFullUrl( 'designer.jpg' );

@@ -1,0 +1,19 @@
+# exclude files & folders in order to get a jobsInfo.js file
+
+
+LOCAL=/Users/nickmortensen/Sites/localhost/jobs/src/
+REMOTE=jones@jonessign.net:/home1/jones/www/jobs.jonessign.com
+EXCLUDES=/Users/nickmortensen/Sites/localhost/jobs/jobs-excludes.txt
+rsync -avn --chmod=Du=rwx,Dg=rx,Do=rx,Fu=rw,Fg=r,Fo=r --exclude-from=$EXCLUDES $LOCAL $REMOTE
+#--exclude-from=/Users/nickmortensen/Sites/localhost/jobs/jobs-excludes.txt
+
+
+.DS_Store
+*/.DS_Store
+certificate
+styles
+index*.html
+seo.html
+images
+scripts
+largerimages
